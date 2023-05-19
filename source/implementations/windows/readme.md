@@ -5,6 +5,7 @@ The Meadow.Core stack now includes support for running on desktop Windows hosts.
 ## Prerequisites
 
 - An Adafruit FT232H (or similar)
+- A SPI compatible device connected to C0 on FT232H
 - A Windows desktop machine with Visual Studio 2022
 
 ## Creating a sample `Meadow.Windows` application
@@ -13,7 +14,7 @@ The Meadow.Core stack now includes support for running on desktop Windows hosts.
 - Add NuGet references to the following
   - Meadow.Windows version 0.95.0
   - Meadow.Foundation.ICs.IOExpanders.Ft232h version 0.95.0
-- Add the `libmpsse.dll` native driver to your project (for the appropriate architecture) and set it to `Copy Always`
+- Add the `libmpsse.dll` native driver to your project (for the appropriate architecture) and set it to `Copy Always`, you can obtain a copy for Windows from `Sources/Meadow.Windows.Samples/HMI/Avalonia/`  (https://github.com/WildernessLabs/Meadow.Core.Samples)
 - Replace the default `Program.cs` code with the following
 
 ```
@@ -26,9 +27,9 @@ public class MeadowApp : App<Windows>
     private Ft232h _expander = new Ft232h();
     private IDigitalOutputPort _c0;
 
-    public static async Task Main(string[] _)
+    public static async Task Main(string[] args)
     {
-        await MeadowOS.Start();
+        await MeadowOS.Start(args);
     }
 
     public override Task Initialize()
